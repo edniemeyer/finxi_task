@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
-from droidshop.app.serializers import UserSerializer, GroupSerializer
+from droidshop.shop.serializers import UserSerializer, GroupSerializer, DemandSerializer
+from droidshop.shop.models import Demand
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -17,3 +18,11 @@ class GroupViewSet(viewsets.ModelViewSet):
     """
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
+
+
+class DemandViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows demands to be viewed or edited.
+    """
+    queryset = Demand.objects.all()
+    serializer_class = DemandSerializer
