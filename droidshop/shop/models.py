@@ -1,6 +1,5 @@
 from django.db import models
 
-# Create your models here.
 class Demand(models.Model):
     OPEN = 'OPEN'
     CLOSED = 'CLOSED'
