@@ -41,12 +41,12 @@ class DemandViewSet(viewsets.ModelViewSet):
         serializer = DemandSerializer(data=request.data)
 
         if demand.status == Demand.CLOSED:
-            return Response({'status': 'Demand was already closed!'},
+            return Response({'status': 'Demand has been already closed!'},
                              status=status.HTTP_403_FORBIDDEN)
         if serializer.is_valid:
             demand.status = Demand.CLOSED
             demand.save()
-            return Response({'status': 'Status Closed'})
+            return Response({'status': 'Demand closed successfully!'})
         else:
             return Response(serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)
