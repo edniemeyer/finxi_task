@@ -1,5 +1,7 @@
 from django.contrib.auth.models import User, Group
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, status
+from rest_framework.decorators import action
+from rest_framework.response import Response
 from droidshop.shop.serializers import UserSerializer, GroupSerializer, DemandSerializer
 from droidshop.shop.models import Demand
 from droidshop.shop.permissions import IsOwnerOrAdmin
@@ -31,6 +33,23 @@ class DemandViewSet(viewsets.ModelViewSet):
             return Demand.objects.all()
         else:
             return Demand.objects.all().filter(advertiser=self.request.user)
+            
+    # Finalize Demand endpoint, changing status from open to closed
+    @action(detail=True, methods=['put'], permission_classes=[IsOwnerOrAdmin])
+    def finalize(self, request, pk=None):
+        demand = self.get_object()
+        serializer = DemandSerializer(data=request.data)
+
+        if demand.status == Demand.CLOSED:
+            return Response({'status': 'Demand was already closed!'},
+                             status=status.HTTP_403_FORBIDDEN)
+        if serializer.is_valid:
+            demand.status = Demand.CLOSED
+            demand.save()
+            return Response({'status': 'Status Closed'})
+        else:
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
 
     serializer_class = DemandSerializer
 

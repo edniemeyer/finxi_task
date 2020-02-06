@@ -16,4 +16,5 @@ class Demand(models.Model):
         max_length=10,
         choices=STATUS_CHOICES,
         default=OPEN,
+        editable=False
     )
