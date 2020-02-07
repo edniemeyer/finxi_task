@@ -24,4 +24,5 @@ class DemandSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Demand
-        fields = ['id', 'description', 'address', 'info', 'advertiser', 'status']
+        fields = ['id', 'description', 'address',
+                  'info', 'advertiser', 'status']

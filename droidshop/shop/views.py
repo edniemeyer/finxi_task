@@ -28,21 +28,22 @@ class DemandViewSet(viewsets.ModelViewSet):
     API endpoint that allows demands to be viewed or edited.
     """
     # Show just objects from the owner or all objects if admin
+
     def get_queryset(self):
         if self.request.user.groups.filter(name='admin').exists():
             return Demand.objects.all()
         else:
             return Demand.objects.all().filter(advertiser=self.request.user)
-            
+
     # Finalize Demand endpoint, changing status from open to closed
-    @action(detail=True, methods=['put'], permission_classes=[IsOwnerOrAdmin])
+    @action(detail=True, methods=['PUT'], permission_classes=[IsOwnerOrAdmin])
     def finalize(self, request, pk=None):
         demand = self.get_object()
         serializer = DemandSerializer(data=request.data)
 
         if demand.status == Demand.CLOSED:
             return Response({'status': 'Demand has been already closed!'},
-                             status=status.HTTP_403_FORBIDDEN)
+                            status=status.HTTP_403_FORBIDDEN)
         if serializer.is_valid:
             demand.status = Demand.CLOSED
             demand.save()

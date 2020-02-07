@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'droidshop'
+    'droidshop.shop.apps.ShopConfig'
 ]
 
 MIDDLEWARE = [
@@ -127,4 +127,5 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json'
 }

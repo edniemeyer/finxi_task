@@ -14,5 +14,5 @@ class IsOwnerOrAdmin(permissions.BasePermission):
         if request.user.groups.filter(name='admin').exists():
             return True
         else:
-        # Instance must have an attribute named `advertiser`.
+            # Instance must have an attribute named `advertiser`.
             return obj.advertiser == request.user
